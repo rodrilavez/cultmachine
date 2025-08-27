@@ -1,9 +1,12 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cult Machine</title>
+  <!-- Workbench Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Workbench&display=swap" rel="stylesheet">
   <style>
     html, body {
       height: 100%;
@@ -31,22 +34,53 @@
       max-height: 70vh;
       opacity: 0;
       filter: grayscale(1) brightness(0.1);
-      animation: fadeinlogo 2.2s cubic-bezier(.4,0,.2,1) 0.2s forwards, floatlogo 5s ease-in-out infinite alternate;
-      /* El logo es negro, sin efectos de sangre */
+      animation: fadeinlogo 2.2s cubic-bezier(.4,0,.2,1) 0.2s forwards, floatlogo 6s ease-in-out infinite alternate;
     }
     @keyframes fadeinlogo {
       from { opacity: 0; }
       to { opacity: 1; }
     }
-    @keyframes floatlogo {
-      0% { transform: translateY(0) scale(1.01) rotate(-0.5deg); }
-      50% { transform: translateY(8px) scale(1.02) rotate(0.5deg); }
-      100% { transform: translateY(0) scale(1.01) rotate(-0.5deg); }
-    }
+      .logo-stack {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2.2vh;
+      }
+      .logo-fade {
+        display: block;
+        max-width: 44vw;
+        max-height: 70vh;
+        opacity: 0;
+        filter: grayscale(1) brightness(0.1);
+        animation: fadeinlogo 2.2s cubic-bezier(.4,0,.2,1) 0.2s forwards, floatlogo 6s ease-in-out infinite alternate;
+      }
+      .logo-url {
+        font-family: 'Workbench', Arial, sans-serif;
+        font-weight: normal;
+        color: #111;
+        font-size: 2.2vw;
+        letter-spacing: 0.08em;
+        margin-top: 1.2vh;
+        text-align: center;
+        opacity: 0.97;
+        user-select: text;
+        text-shadow: none;
+      }
+      @keyframes floatlogo {
+        0% { transform: translateY(0) scale(1.01) rotate(-1.2deg); }
+        25% { transform: translateY(10px) scale(1.025) rotate(0.7deg); }
+        50% { transform: translateY(18px) scale(1.04) rotate(1.2deg); }
+        75% { transform: translateY(10px) scale(1.025) rotate(0.7deg); }
+        100% { transform: translateY(0) scale(1.01) rotate(-1.2deg); }
+      }
   </style>
 </head>
 <body>
-  <img src="cult-logo.png" alt="cult logo" class="logo-fade" />
+  <div class="logo-stack">
+    <img src="cult-logo.png" alt="cult logo" class="logo-fade" />
+    <div class="logo-url">cult-machine.com</div>
+  </div>
 </body>
 </html>
 
