@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cult Machine - Blog</title>
+  <link href="https://fonts.googleapis.com/css2?family=Workbench&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      width: 100vw;
+      box-sizing: border-box;
+      font-family: 'Workbench', Arial, sans-serif;
+      background: #f8f8f8;
+      overflow-x: hidden;
+    }
+    body {
+      width: 100vw;
+      min-width: 0;
+      max-width: 100vw;
+    }
+    header {
+      width: 100vw;
+      background: #fff;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5em 2vw;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-sizing: border-box;
+      max-width: 100vw;
+      overflow-x: auto;
+      transition: background 0.3s;
+    }
+    body[data-theme="dark"] header {
+      background: #181818;
+      border-bottom: 1px solid #333;
+    }
+    .nav {
+      display: flex;
+      gap: 2vw;
+      flex-wrap: wrap;
+    }
+    .nav a {
+      text-decoration: none;
+      color: #111;
+      font-size: 1.1em;
+      font-family: 'Workbench', Arial, sans-serif;
+      font-weight: bold;
+      letter-spacing: 0.04em;
+      transition: color 0.2s;
+      white-space: nowrap;
+    }
+    .nav a.active, .nav a:hover {
+      color: #c00;
+    }
+    .header-logo {
+      height: 70px;
+      width: auto;
+      margin: 0.2em 0;
+      max-width: 220px;
+    }
+    .monogram-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.13;
+      display: block;
+      width: 100vw;
+      height: 100vh;
+      max-width: 100vw;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+    main {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 80vh;
+      padding: 4vw 2vw 2vw 2vw;
+      width: 100vw;
+      max-width: 100vw;
+      box-sizing: border-box;
+    }
+    .blog-section {
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 2px 16px #0001;
+      max-width: 800px;
+      width: 100%;
+      margin: 3vw auto 0 auto;
+      padding: 2em 1.5em;
+      text-align: left;
+      z-index: 2;
+      box-sizing: border-box;
+      overflow-wrap: break-word;
+      word-break: break-word;
+    }
+    .blog-section h2 {
+      margin-top: 0;
+      font-size: 2em;
+      color: #c00;
+      font-family: 'Workbench', Arial, sans-serif;
+    }
+    .blog-section h3 {
+      font-size: 1.2em;
+      color: #c00;
+      margin-bottom: 0.2em;
+      margin-top: 1.5em;
+    }
+    .blog-section p, .blog-section ul {
+      font-size: 1.1em;
+      color: #222;
+      line-height: 1.6;
+      margin-top: 0.5em;
+    }
+    body[data-theme="dark"] .blog-section p,
+    body[data-theme="dark"] .blog-section ul {
+      color: #eee;
+    }
+    .blog-section ul {
+      padding-left: 1.2em;
+      margin-bottom: 0.5em;
+    }
+    .blog-section li {
+      margin-bottom: 0.3em;
+    }
+    .blog-meta {
+      font-size: 0.95em;
+      color: #666;
+      margin-bottom: 1em;
+      font-family: 'Workbench', Arial, sans-serif;
+    }
+    body[data-theme="dark"] {
+      background: #181818;
+    }
+    body[data-theme="dark"] .blog-section {
+      background: #222;
+      color: #eee;
+      box-shadow: 0 2px 16px #0006;
+    }
+    body[data-theme="dark"] .blog-section h2,
+    body[data-theme="dark"] .blog-section h3 {
+      color: #ff4444;
+    }
+    body[data-theme="dark"] .nav a {
+      color: #eee;
+    }
+    body[data-theme="dark"] .nav a.active, body[data-theme="dark"] .nav a:hover {
+      color: #ff4444;
+    }
+    body[data-theme="dark"] .header-logo {
+      filter: brightness(0.8) invert(1);
+    }
+    body[data-theme="dark"] .monogram-bg {
+      opacity: 0.18;
+    }
+    .theme-toggle {
+      position: fixed;
+      left: 1vw;
+      bottom: 2vw;
+      top: auto;
+      background: none;
+      border: none;
+      padding: 0.2em;
+      margin: 0;
+      cursor: pointer;
+      z-index: 20;
+      font-size: 1.7em;
+      color: #222;
+      transition: color 0.2s, background 0.2s;
+      border-radius: 50%;
+      width: 2em;
+      height: 2em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px #0002;
+    }
+    body[data-theme="dark"] .theme-toggle {
+      color: #ffecb3;
+      background: #222;
+      border: 1px solid #444;
+      box-shadow: 0 2px 12px #0008;
+    }
+    .theme-toggle:focus {
+      outline: 2px solid #c00;
+    }
+    @media (max-width: 600px) {
+      .header-logo {
+        height: 48px;
+        max-width: 120px;
+      }
+      .blog-section {
+        padding: 1.2em 0.5em;
+        max-width: 98vw;
+      }
+      header {
+        flex-direction: column;
+        gap: 0.5em;
+        padding: 0.5em 0.5em;
+      }
+      main {
+        padding: 4vw 0.5vw 2vw 0.5vw;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="cult-logo.png" alt="Cult Machine logo" class="header-logo" />
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="blog.html" class="active">Blog</a>
+      <a href="merch.html">Merch</a>
+      <a href="about.html">About</a>
+    </nav>
+  </header>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode" title="Toggle dark/light mode">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="10" fill="currentColor" />
+      <path d="M16 12a4 4 0 0 1-4-4V4a8 8 0 1 0 8 8h-4z" fill="#181818" />
+    </svg>
+  </button>
+  <div class="monogram-bg" aria-hidden="true"></div>
+  <main>
+    <section class="blog-section">
+      <h2>Artists Are Pulling Their Music From Spotify — And They're Not Quiet About It</h2>
+      <div class="blog-meta">
+        <span>By <strong>Rod</strong></span> &nbsp;|&nbsp; <span>Published: September 1, 2025</span>
+      </div>
+      <p><strong>Streaming has always been a love–hate relationship for musicians, but this summer it turned into open rebellion. A growing number of artists are removing their music from Spotify in protest, calling out the company's ties to military AI and its CEO's controversial investments.</strong></p>
+      <p>The message is clear: streaming shouldn't come at the cost of ethics.</p>
+      <h3>Why Are Artists Leaving?</h3>
+      <p>The controversy began when it surfaced that Spotify CEO Daniel Ek's investment fund, Prima Materia, poured €600 million into Helsing, a defense tech company building AI systems for the battlefield. For artists who see music as a weapon of peace, this was a step too far.</p>
+      <p>Many have framed their exit as both a moral stance and a rejection of Spotify's already notorious reputation for low payouts to musicians.</p>
+      <h3>Who's Taking a Stand?</h3>
+      <ul>
+        <li><strong>Deerhoof</strong><br>
+          On June 30, the experimental rock legends announced they were pulling out:<br>
+          <em>"We don't want our music killing people. We don't want our success being tied to AI battle tech."</em><br>
+          They didn't mince words, also calling Spotify a "data-mining scam."
+        </li>
+        <li><strong>King Gizzard & the Lizard Wizard</strong><br>
+          The Australian psych-rockers posted on Instagram on July 25:<br>
+          <em>"New demos collection out everywhere except Spotify (fuck Spotify)."</em><br>
+          They made it clear their boycott was directly tied to Ek's Helsing investment.
+        </li>
+        <li><strong>Xiu Xiu</strong><br>
+          The avant-garde group followed on July 24, dubbing Spotify a "garbage hole armageddon portal." They urged fans to cancel subscriptions altogether.
+        </li>
+        <li><strong>Hotline TNT</strong><br>
+          The NYC shoegaze band released a statement on August 22 explaining:<br>
+          <em>"The company that bills itself as the steward of all recorded music has proven beyond the shadow of a doubt that it does not align with the band's values in any way … A cooler world is possible."</em>
+        </li>
+        <li><strong>Godspeed You! Black Emperor</strong><br>
+          In mid-August, the Canadian post-rock icons quietly removed their entire catalog from Spotify and Tidal. Fans can now only stream their work on Bandcamp, a move that underlines their commitment to independent platforms.
+        </li>
+      </ul>
+      <h3>What This Means for Music</h3>
+      <p>This wave of departures is more than symbolic. It signals a growing awareness among artists about where their work gets displayed—and how the profits are used. While Spotify continues to dominate with over 500 million users, these exits highlight the platform's ethical blind spots.</p>
+      <p>For fans, it's a reminder that supporting artists directly—through platforms like Bandcamp, Patreon, or live shows—means your money isn't inadvertently funding military tech.</p>
+      <p>As more artists prioritize values over reach, we might be witnessing the beginning of a more conscious music economy. Or at least, one where streaming giants can't take artist loyalty for granted.</p>
+    </section>
+  </main>
+  <script>
+    // Generate exaggerated, overlapping monogram background
+    const bg = document.querySelector('.monogram-bg');
+    const logoSize = 60; // Large logo size for exaggeration
+    const overlap = 0.6; // Overlap factor (0.6 = 60% overlap)
+    const rows = Math.ceil(window.innerHeight / (logoSize * overlap));
+    const cols = Math.ceil(window.innerWidth / (logoSize * overlap));
+    let html = '';
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        // Random rotation and offset for chaotic effect
+        const rot = Math.random() * 60 - 30; // -30 to +30 deg
+        const xJitter = Math.random() * 18 - 9; // -9 to +9 px
+        const yJitter = Math.random() * 18 - 9; // -9 to +9 px
+        html += `<img src="cult-logo.png" alt="logo" style="position:absolute;left:${c*logoSize*overlap+xJitter}px;top:${r*logoSize*overlap+yJitter}px;height:${logoSize}px;width:auto;opacity:0.22;transform:rotate(${rot}deg);pointer-events:none;max-width:${logoSize}px;" />`;
+      }
+    }
+    bg.innerHTML = html;
+
+    // Theme toggle logic
+    const themeToggle = document.getElementById('themeToggle');
+    function setTheme(theme) {
+      document.body.setAttribute('data-theme', theme);
+      themeToggle.style.color = theme === 'dark' ? '#ffecb3' : '#222';
+      // Also update monogram background color
+      const monogramBg = document.querySelector('.monogram-bg');
+      if (theme === 'dark') {
+        monogramBg.style.background = '#181818';
+      } else {
+        monogramBg.style.background = '#f8f8f8';
+      }
+    }
+    themeToggle.addEventListener('click', () => {
+      const current = document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      setTheme(current);
+      localStorage.setItem('cultTheme', current);
+    });
+    // Load theme from localStorage
+    setTheme(localStorage.getItem('cultTheme') || 'light');
+  </script>
+</body>
+</html>

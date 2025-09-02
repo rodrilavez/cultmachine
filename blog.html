@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cult Machine - Blog</title>
+  <link href="https://fonts.googleapis.com/css2?family=Workbench&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      width: 100vw;
+      box-sizing: border-box;
+      font-family: 'Workbench', Arial, sans-serif;
+      background: #f8f8f8;
+      overflow-x: hidden;
+    }
+    body {
+      width: 100vw;
+      min-width: 0;
+      max-width: 100vw;
+    }
+    header {
+      width: 100vw;
+      background: #fff;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5em 2vw;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-sizing: border-box;
+      max-width: 100vw;
+      overflow-x: auto;
+      transition: background 0.3s;
+    }
+    body[data-theme="dark"] header {
+      background: #181818;
+      border-bottom: 1px solid #333;
+    }
+    .nav {
+      display: flex;
+      gap: 2vw;
+      flex-wrap: wrap;
+    }
+    .nav a {
+      text-decoration: none;
+      color: #111;
+      font-size: 1.1em;
+      font-family: 'Workbench', Arial, sans-serif;
+      font-weight: bold;
+      letter-spacing: 0.04em;
+      transition: color 0.2s;
+      white-space: nowrap;
+    }
+    .nav a.active, .nav a:hover {
+      color: #c00;
+    }
+    .header-logo {
+      height: 70px;
+      width: auto;
+      margin: 0.2em 0;
+      max-width: 220px;
+    }
+    .monogram-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.13;
+      display: block;
+      width: 100vw;
+      height: 100vh;
+      max-width: 100vw;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+    main {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 80vh;
+      padding: 4vw 2vw 2vw 2vw;
+      width: 100vw;
+      max-width: 100vw;
+      box-sizing: border-box;
+    }
+    .blog-section {
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 2px 16px #0001;
+      max-width: 600px;
+      width: 100%;
+      margin: 3vw auto 0 auto;
+      padding: 2em 1.5em;
+      text-align: left;
+      z-index: 2;
+      box-sizing: border-box;
+      overflow-wrap: break-word;
+      word-break: break-word;
+    }
+    .blog-section h2 {
+      margin-top: 0;
+      font-size: 2em;
+      color: #c00;
+      font-family: 'Workbench', Arial, sans-serif;
+    }
+    .blog-section p {
+      font-size: 1.1em;
+      color: #222;
+      line-height: 1.6;
+      margin-top: 0.5em;
+      font-family: 'Workbench', Arial, sans-serif;
+    }
+    .articles-list {
+      margin-top: 2em;
+    }
+    .article-preview {
+      background: #f9f9f9;
+      border-radius: 12px;
+      padding: 1.5em;
+      border-left: 4px solid #c00;
+      margin-bottom: 1.5em;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .article-preview:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 20px #0003;
+    }
+    .article-meta {
+      display: flex;
+      gap: 1em;
+      margin-bottom: 0.8em;
+      font-size: 0.9em;
+      color: #666;
+      font-family: 'Workbench', Arial, sans-serif;
+    }
+    .article-meta .date {
+      font-weight: bold;
+    }
+    .article-preview h3 {
+      margin: 0 0 0.8em 0;
+      font-size: 1.4em;
+      font-family: 'Workbench', Arial, sans-serif;
+    }
+    .article-preview h3 a {
+      color: #222;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .article-preview h3 a:hover {
+      color: #c00;
+    }
+    .excerpt {
+      color: #555;
+      line-height: 1.6;
+      margin-bottom: 1em;
+      font-family: 'Workbench', Arial, sans-serif;
+      font-size: 1em;
+    }
+    .read-more {
+      color: #c00;
+      font-weight: bold;
+      text-decoration: none;
+      transition: color 0.2s;
+      font-family: 'Workbench', Arial, sans-serif;
+    }
+    .read-more:hover {
+      color: #800;
+    }
+    body[data-theme="dark"] {
+      background: #181818;
+    }
+    body[data-theme="dark"] .blog-section {
+      background: #222;
+      color: #eee;
+      box-shadow: 0 2px 16px #0006;
+    }
+    body[data-theme="dark"] .blog-section h2 {
+      color: #ff4444;
+    }
+    body[data-theme="dark"] .blog-section p {
+      color: #eee;
+    }
+    body[data-theme="dark"] .article-preview {
+      background: #333;
+      border-left-color: #ff4444;
+    }
+    body[data-theme="dark"] .article-preview h3 a {
+      color: #eee;
+    }
+    body[data-theme="dark"] .article-preview h3 a:hover {
+      color: #ff4444;
+    }
+    body[data-theme="dark"] .excerpt {
+      color: #ccc;
+    }
+    body[data-theme="dark"] .article-meta {
+      color: #aaa;
+    }
+    body[data-theme="dark"] .read-more {
+      color: #ff4444;
+    }
+    body[data-theme="dark"] .read-more:hover {
+      color: #ff6666;
+    }
+    body[data-theme="dark"] .nav a {
+      color: #eee;
+    }
+    body[data-theme="dark"] .nav a.active, body[data-theme="dark"] .nav a:hover {
+      color: #ff4444;
+    }
+    body[data-theme="dark"] .header-logo {
+      filter: brightness(0.8) invert(1);
+    }
+    body[data-theme="dark"] .monogram-bg {
+      opacity: 0.18;
+    }
+    .theme-toggle {
+      position: fixed;
+      left: 1vw;
+      bottom: 2vw;
+      top: auto;
+      background: none;
+      border: none;
+      padding: 0.2em;
+      margin: 0;
+      cursor: pointer;
+      z-index: 20;
+      font-size: 1.7em;
+      color: #222;
+      transition: color 0.2s, background 0.2s;
+      border-radius: 50%;
+      width: 2em;
+      height: 2em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px #0002;
+    }
+    body[data-theme="dark"] .theme-toggle {
+      color: #ffecb3;
+      background: #222;
+      border: 1px solid #444;
+      box-shadow: 0 2px 12px #0008;
+    }
+    .theme-toggle:focus {
+      outline: 2px solid #c00;
+    }
+    @media (max-width: 600px) {
+      .header-logo {
+        height: 48px;
+        max-width: 120px;
+      }
+      .blog-section {
+        padding: 1.2em 0.5em;
+        max-width: 98vw;
+      }
+      header {
+        flex-direction: column;
+        gap: 0.5em;
+        padding: 0.5em 0.5em;
+      }
+      main {
+        padding: 4vw 0.5vw 2vw 0.5vw;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="cult-logo.png" alt="Cult Machine logo" class="header-logo" />
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="blog.html" class="active">Blog</a>
+      <a href="merch.html">Merch</a>
+      <a href="about.html">About</a>
+    </nav>
+  </header>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode" title="Toggle dark/light mode">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="10" fill="currentColor" />
+      <path d="M16 12a4 4 0 0 1-4-4V4a8 8 0 1 0 8 8h-4z" fill="#181818" />
+    </svg>
+  </button>
+  <div class="monogram-bg" aria-hidden="true"></div>
+  <main>
+    <section class="blog-section">
+      <h2>Blog</h2>
+      <p>Exploring art, culture, and technology at the intersection of creativity and rebellion.</p>
+      
+      <div class="articles-list">
+        <article class="article-preview">
+          <div class="article-meta">
+            <span class="date">September 1, 2025</span>
+            <span class="author">By Rod</span>
+          </div>
+          <h3><a href="article-spotify-boycott.html">Artists Are Pulling Their Music From Spotify — And They're Not Quiet About It</a></h3>
+          <p class="excerpt">Streaming has always been a love–hate relationship for musicians, but this summer it turned into open rebellion. A growing number of artists are removing their music from Spotify in protest...</p>
+          <a href="article-spotify-boycott.html" class="read-more">Read full article →</a>
+        </article>
+      </div>
+    </section>
+  </main>
+  <script>
+    // Generate exaggerated, overlapping monogram background
+    try {
+      const bg = document.querySelector('.monogram-bg');
+      if (bg) {
+        const logoSize = 60;
+        const overlap = 0.6;
+        const rows = Math.ceil(window.innerHeight / (logoSize * overlap));
+        const cols = Math.ceil(window.innerWidth / (logoSize * overlap));
+        let html = '';
+        for (let r = 0; r < rows; r++) {
+          for (let c = 0; c < cols; c++) {
+            const rot = Math.random() * 60 - 30;
+            const xJitter = Math.random() * 18 - 9;
+            const yJitter = Math.random() * 18 - 9;
+            html += `<img src="cult-logo.png" alt="logo" onerror="this.style.display='none'" style="position:absolute;left:${c*logoSize*overlap+xJitter}px;top:${r*logoSize*overlap+yJitter}px;height:${logoSize}px;width:auto;opacity:0.22;transform:rotate(${rot}deg);pointer-events:none;max-width:${logoSize}px;" />`;
+          }
+        }
+        bg.innerHTML = html;
+      }
+    } catch (e) {
+      console.warn('Monogram background failed to load:', e);
+    }
+
+    // Theme toggle logic
+    try {
+      const themeToggle = document.getElementById('themeToggle');
+      if (themeToggle) {
+        function setTheme(theme) {
+          document.body.setAttribute('data-theme', theme);
+          themeToggle.style.color = theme === 'dark' ? '#ffecb3' : '#222';
+          const monogramBg = document.querySelector('.monogram-bg');
+          if (monogramBg) {
+            if (theme === 'dark') {
+              monogramBg.style.background = '#181818';
+            } else {
+              monogramBg.style.background = '#f8f8f8';
+            }
+          }
+        }
+        themeToggle.addEventListener('click', () => {
+          const current = document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+          setTheme(current);
+          localStorage.setItem('cultTheme', current);
+        });
+        setTheme(localStorage.getItem('cultTheme') || 'light');
+      }
+    } catch (e) {
+      console.warn('Theme toggle failed to initialize:', e);
+    }
+  </script>
+</body>
+</html>
