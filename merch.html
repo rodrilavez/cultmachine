@@ -155,8 +155,53 @@
       border: 2px solid #eee;
     }
     .product-image.black {
-      background: #1a1a1a;
+      background: transparent;
       color: #fff;
+      border: none;
+      position: relative;
+    }
+    .shirt-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    .shirt-container:hover {
+      transform: scale(1.05);
+    }
+    .shirt-image {
+      max-width: 90%;
+      max-height: 90%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+    }
+    .shirt-logo {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+    }
+    .shirt-design {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .shirt-logo {
+      position: absolute;
+      top: 45%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+      pointer-events: none;
     }
     .logo-placeholder {
       width: 80px;
@@ -210,6 +255,26 @@
     }
     body[data-theme="dark"] .product-image {
       border-color: #555;
+    }
+    body[data-theme="dark"] .product-image.black {
+      background: linear-gradient(135deg, #333, #222);
+      border-color: #666;
+    }
+    body[data-theme="dark"] .tshirt-shape {
+      background: linear-gradient(145deg, #333, #111);
+      border-color: #555;
+      box-shadow: 
+        inset 0 2px 8px rgba(255,255,255,0.15),
+        0 4px 12px rgba(0,0,0,0.5);
+    }
+    body[data-theme="dark"] .tshirt-shape::before {
+      background: linear-gradient(145deg, #333, #111);
+      border-color: #555;
+    }
+    body[data-theme="dark"] .tshirt-shape::after {
+      background: linear-gradient(145deg, #333, #111);
+      border-color: #555;
+      box-shadow: 140px 0 0 -1px #111, 141px 0 0 0 #555;
     }
     body[data-theme="dark"] .nav a {
       color: #eee;
@@ -370,22 +435,18 @@
   <main>
     <!-- Updated: 2024 --><section class="content-section">
       <h2>Merch</h2>
-      <p>Our exclusive merchandise collection featuring unique designs.</p>
       
       <div class="product-grid">
         <div class="product-item">
-          <div class="product-image white">
-            <div class="logo-placeholder black">CULT<br>LOGO</div>
-          </div>
-          <div class="product-title">White T-Shirt</div>
-          <div class="coming-soon">Coming Soon</div>
-        </div>
-        
-        <div class="product-item">
           <div class="product-image black">
-            <div class="logo-placeholder white">CULT<br>LOGO</div>
+            <div class="shirt-container" onclick="console.log('T-shirt clicked - future functionality')">
+              <img src="black-shirt.png" alt="Black T-Shirt" class="shirt-image" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjZjVmNWY1Ii8+Cjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjNjY2Ij5CbGFjayBULVNoaXJ0PC90ZXh0Pgo8L3N2Zz4='" />
+              <div class="shirt-logo">
+                <img src="cult-logo.png" alt="Cult Logo" style="width: 50px; height: 50px; filter: invert(1) brightness(2) contrast(1.2);" onerror="this.innerHTML='<div style=&quot;color: white; font-size: 10px; font-weight: bold; text-align: center;&quot;>CULT<br>MACHINE</div>';" />
+              </div>
+            </div>
           </div>
-          <div class="product-title">Black T-Shirt</div>
+          <div class="product-title">Cult Machine Black T-Shirt</div>
           <div class="coming-soon">Coming Soon</div>
         </div>
       </div>
